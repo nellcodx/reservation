@@ -1,0 +1,17 @@
+# Realtime API (Express + Socket.io) — e.g. Railway, Render, Google Cloud Run
+# docker build -t rr-api . && docker run -p 4000:4000 -e DATABASE_URL=... -e WEB_ORIGINS=https://yourapp.vercel.app rr-api
+FROM node:20-bookworm-slim AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY packages ./packages
+RUN npm install
+RUN npm run build -w @rr/api
+
+FROM node:20-bookworm-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=build /app/package.json /app/package-lock.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/packages/api ./packages/api
+EXPOSE 4000
+CMD ["node", "packages/api/dist/server.js"]
