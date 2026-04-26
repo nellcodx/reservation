@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { addMinutes } from "date-fns";
-import { prisma } from "@/server/db";
+import { getPrisma } from "@/server/db";
 import { findAvailableTablesForWindow } from "@/server/reservations/logic";
 
 export const runtime = "nodejs";
@@ -19,6 +19,7 @@ export async function GET(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
   try {
+    const prisma = getPrisma();
     const startAt = new Date(parsed.data.startAt);
     const endAt = addMinutes(startAt, parsed.data.durationMinutes);
     const tables = await findAvailableTablesForWindow({

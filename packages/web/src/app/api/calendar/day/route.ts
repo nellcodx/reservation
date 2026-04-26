@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { addMinutes, endOfDay, startOfDay } from "date-fns";
-import { prisma } from "@/server/db";
+import { getPrisma } from "@/server/db";
 import { findAvailableTablesForWindow } from "@/server/reservations/logic";
 
 export const runtime = "nodejs";
@@ -20,6 +20,7 @@ export async function GET(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
   try {
+    const prisma = getPrisma();
     const day = new Date(parsed.data.day);
     const dayStart = startOfDay(day);
     const dayEnd = endOfDay(day);

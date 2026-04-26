@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { addMinutes } from "date-fns";
-import { prisma } from "@/server/db";
+import { getPrisma } from "@/server/db";
 import { createReservationOptimized } from "@/server/reservations/logic";
 
 export const runtime = "nodejs";
@@ -27,6 +27,7 @@ export async function POST(req: Request) {
     const endAt = addMinutes(startAt, parsed.data.durationMinutes);
 
     try {
+      const prisma = getPrisma();
       const result = await createReservationOptimized({
         prisma,
         input: {

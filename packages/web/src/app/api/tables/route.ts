@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/server/db";
+import { getPrisma } from "@/server/db";
 import { listTables } from "@/server/reservations/logic";
 
 export const runtime = "nodejs";
@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    const prisma = getPrisma();
     const tables = await listTables(prisma);
     return NextResponse.json({ tables });
   } catch (e) {
