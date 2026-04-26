@@ -184,6 +184,10 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -209,8 +213,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  // Isolate generated client from other workspaces in this monorepo.\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ReservationStatus {\n  PENDING\n  CONFIRMED\n  CANCELLED\n  NO_SHOW\n}\n\nenum TableStatus {\n  FREE\n  OCCUPIED\n}\n\nmodel RestaurantTable {\n  id        String      @id @default(cuid())\n  name      String\n  capacity  Int\n  x         Int         @default(0)\n  y         Int         @default(0)\n  status    TableStatus @default(FREE)\n  createdAt DateTime    @default(now())\n  updatedAt DateTime    @updatedAt\n\n  reservations Reservation[]\n\n  @@index([capacity])\n}\n\nmodel Reservation {\n  id        String            @id @default(cuid())\n  startAt   DateTime\n  endAt     DateTime\n  partySize Int\n  status    ReservationStatus @default(PENDING)\n\n  guestName  String\n  guestPhone String\n  notes      String?\n  source     String  @default(\"online\")\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  tableId String\n  table   RestaurantTable @relation(fields: [tableId], references: [id], onDelete: Restrict)\n\n  smsConfirmationSentAt DateTime?\n  smsReminderSentAt     DateTime?\n\n  @@index([startAt])\n  @@index([endAt])\n  @@index([status])\n  @@index([tableId, startAt, endAt])\n}\n\nmodel WaitlistEntry {\n  id         String   @id @default(cuid())\n  desiredAt  DateTime\n  partySize  Int\n  guestName  String\n  guestPhone String\n  notes      String?\n  createdAt  DateTime @default(now())\n\n  @@index([desiredAt])\n}\n",
-  "inlineSchemaHash": "c6259f8088582e985cbe33d0ebe87fdd9443db853b12392eb8f948d99e2c5d4c",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  // Isolate generated client from other workspaces in this monorepo.\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ReservationStatus {\n  PENDING\n  CONFIRMED\n  CANCELLED\n  NO_SHOW\n}\n\nenum TableStatus {\n  FREE\n  OCCUPIED\n}\n\nmodel RestaurantTable {\n  id        String      @id @default(cuid())\n  name      String\n  capacity  Int\n  x         Int         @default(0)\n  y         Int         @default(0)\n  status    TableStatus @default(FREE)\n  createdAt DateTime    @default(now())\n  updatedAt DateTime    @updatedAt\n\n  reservations Reservation[]\n\n  @@index([capacity])\n}\n\nmodel Reservation {\n  id        String            @id @default(cuid())\n  startAt   DateTime\n  endAt     DateTime\n  partySize Int\n  status    ReservationStatus @default(PENDING)\n\n  guestName  String\n  guestPhone String\n  notes      String?\n  source     String  @default(\"online\")\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  tableId String\n  table   RestaurantTable @relation(fields: [tableId], references: [id], onDelete: Restrict)\n\n  smsConfirmationSentAt DateTime?\n  smsReminderSentAt     DateTime?\n\n  @@index([startAt])\n  @@index([endAt])\n  @@index([status])\n  @@index([tableId, startAt, endAt])\n}\n\nmodel WaitlistEntry {\n  id         String   @id @default(cuid())\n  desiredAt  DateTime\n  partySize  Int\n  guestName  String\n  guestPhone String\n  notes      String?\n  createdAt  DateTime @default(now())\n\n  @@index([desiredAt])\n}\n",
+  "inlineSchemaHash": "f1554bc256cac3baf10662df7c93db3d3f2921e4c3bf58fc606290da236bbe15",
   "copyEngine": true
 }
 config.dirname = '/'

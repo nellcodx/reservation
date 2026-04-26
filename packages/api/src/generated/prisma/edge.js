@@ -184,6 +184,10 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -210,8 +214,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  // Isolate generated client from other workspaces in this monorepo.\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ReservationStatus {\n  PENDING\n  CONFIRMED\n  CANCELLED\n  NO_SHOW\n}\n\nenum TableStatus {\n  FREE\n  OCCUPIED\n}\n\nmodel RestaurantTable {\n  id        String      @id @default(cuid())\n  name      String\n  capacity  Int\n  x         Int         @default(0) // floorplan coordinate (grid units)\n  y         Int         @default(0)\n  status    TableStatus @default(FREE)\n  createdAt DateTime    @default(now())\n  updatedAt DateTime    @updatedAt\n\n  reservations Reservation[]\n\n  @@index([capacity])\n}\n\nmodel Reservation {\n  id         String            @id @default(cuid())\n  startAt    DateTime\n  endAt      DateTime\n  partySize  Int\n  status     ReservationStatus @default(PENDING)\n  guestName  String\n  guestPhone String\n  notes      String?\n  source     String            @default(\"online\") // online, admin, walkin\n  createdAt  DateTime          @default(now())\n  updatedAt  DateTime          @updatedAt\n\n  tableId String\n  table   RestaurantTable @relation(fields: [tableId], references: [id], onDelete: Restrict)\n\n  smsConfirmationSentAt DateTime?\n  smsReminderSentAt     DateTime?\n\n  @@index([startAt])\n  @@index([endAt])\n  @@index([status])\n  @@index([tableId, startAt, endAt])\n}\n\nmodel WaitlistEntry {\n  id         String   @id @default(cuid())\n  desiredAt  DateTime\n  partySize  Int\n  guestName  String\n  guestPhone String\n  notes      String?\n  createdAt  DateTime @default(now())\n\n  @@index([desiredAt])\n}\n",
-  "inlineSchemaHash": "49851b0ed9fd79a267495d094065b580d6da17820ebe08dbd89140437cb21839",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  // Isolate generated client from other workspaces in this monorepo.\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ReservationStatus {\n  PENDING\n  CONFIRMED\n  CANCELLED\n  NO_SHOW\n}\n\nenum TableStatus {\n  FREE\n  OCCUPIED\n}\n\nmodel RestaurantTable {\n  id        String      @id @default(cuid())\n  name      String\n  capacity  Int\n  x         Int         @default(0) // floorplan coordinate (grid units)\n  y         Int         @default(0)\n  status    TableStatus @default(FREE)\n  createdAt DateTime    @default(now())\n  updatedAt DateTime    @updatedAt\n\n  reservations Reservation[]\n\n  @@index([capacity])\n}\n\nmodel Reservation {\n  id         String            @id @default(cuid())\n  startAt    DateTime\n  endAt      DateTime\n  partySize  Int\n  status     ReservationStatus @default(PENDING)\n  guestName  String\n  guestPhone String\n  notes      String?\n  source     String            @default(\"online\") // online, admin, walkin\n  createdAt  DateTime          @default(now())\n  updatedAt  DateTime          @updatedAt\n\n  tableId String\n  table   RestaurantTable @relation(fields: [tableId], references: [id], onDelete: Restrict)\n\n  smsConfirmationSentAt DateTime?\n  smsReminderSentAt     DateTime?\n\n  @@index([startAt])\n  @@index([endAt])\n  @@index([status])\n  @@index([tableId, startAt, endAt])\n}\n\nmodel WaitlistEntry {\n  id         String   @id @default(cuid())\n  desiredAt  DateTime\n  partySize  Int\n  guestName  String\n  guestPhone String\n  notes      String?\n  createdAt  DateTime @default(now())\n\n  @@index([desiredAt])\n}\n",
+  "inlineSchemaHash": "4d143cc4cfca8ebea81b7421072b210ec4c912e9fdf2406b1ceb25ac41e0e167",
   "copyEngine": true
 }
 config.dirname = '/'
