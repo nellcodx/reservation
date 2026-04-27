@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tavolo — Reservations",
+  title: "HoReCa BOSS — Reservations",
   description: "Real-time table booking for restaurants",
 };
 

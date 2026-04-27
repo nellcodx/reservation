@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WaiterLayout } from "@/components/layouts/WaiterLayout";
 
 export const metadata: Metadata = {
-  title: "Staff — Tavolo",
+  title: "Staff — HoReCa BOSS",
   description: "Waiter floor and orders"
 };
 

@@ -21,7 +21,7 @@ export function WaiterLayout({ children }: { children: React.ReactNode }) {
               <UtensilsCrossed className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-stone-900">Tavolo staff</p>
+              <p className="text-sm font-semibold text-stone-900">HoReCa BOSS · staff</p>
               <p className="text-xs text-stone-500">waiter</p>
             </div>
           </div>

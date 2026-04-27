@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-10">
       <header className="space-y-2">
-        <p className="text-xs font-medium uppercase tracking-widest text-amber-700/90">Tavolo</p>
+        <p className="text-xs font-semibold tracking-[0.18em] text-amber-700/90">HoReCa BOSS</p>
         <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Book a table in a few steps.</h1>
         <p className="max-w-xl text-sm leading-relaxed text-stone-600">
           Built for <strong>guests</strong>: choose date, time, party size — then tap a table on the live floor map or pick from the list.
