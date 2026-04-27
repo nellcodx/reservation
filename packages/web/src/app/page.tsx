@@ -5,10 +5,10 @@ export default function Home() {
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-10">
       <header className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-widest text-amber-700/90">Tavolo</p>
-        <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Reservations, live.</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Book a table in a few steps.</h1>
         <p className="max-w-xl text-sm leading-relaxed text-stone-600">
-          Book time slots, see table availability, and run service from a focused staff view. The stack is Next.js, PostgreSQL,
-          and optional Express + Socket.io for push updates, with mock SMS in development.
+          This path is for <strong>guests</strong>: date, party size, time, then your details. The small room map in the book flow
+          is optional and tucked away — you don’t need a floor plan to finish a reservation.
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
           <Link
@@ -19,20 +19,20 @@ export default function Home() {
           </Link>
           <Link
             href="/admin"
-            className="inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition hover:border-stone-300"
+            className="inline-flex items-center justify-center rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-500 transition hover:border-stone-300"
           >
-            Staff
+            For staff
           </Link>
         </div>
       </header>
       <section className="grid gap-3 sm:grid-cols-2">
         <div className="rr-card min-h-24 p-4">
-          <h2 className="text-sm font-medium text-stone-900">Guest flow</h2>
-          <p className="mt-1 text-xs text-stone-500">Day or week view, 15-minute slots, capacity-aware tables, and confirmation with SMS (mocked locally).</p>
+          <h2 className="text-sm font-medium text-stone-900">For guests</h2>
+          <p className="mt-1 text-xs text-stone-500">Day or week view, 15-minute slots, capacity-aware tables, and mock SMS in development — same flow you could ship to diners.</p>
         </div>
         <div className="rr-card min-h-24 p-4">
-          <h2 className="text-sm font-medium text-stone-900">Operations</h2>
-          <p className="mt-1 text-xs text-stone-500">Modify bookings, mark no-shows, walk-ins, waitlist, and a simple 7-day analytics slice.</p>
+          <h2 className="text-sm font-medium text-stone-900">Behind the scenes</h2>
+          <p className="mt-1 text-xs text-stone-500">Next.js + PostgreSQL; team dashboard, table map, waitlist, and optional realtime updates for operations.</p>
         </div>
       </section>
     </div>

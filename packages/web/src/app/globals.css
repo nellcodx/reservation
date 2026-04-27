@@ -56,3 +56,11 @@ body {
 .rr-tile-occupied {
   @apply border border-red-300/80 bg-red-100 text-red-900;
 }
+
+/* Guest booking: native <details> marker hides for custom summary */
+details.rr-guest-details > summary {
+  list-style: none;
+}
+details.rr-guest-details > summary::-webkit-details-marker {
+  display: none;
+}

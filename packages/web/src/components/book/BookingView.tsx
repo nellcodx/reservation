@@ -205,7 +205,10 @@ export function BookingView() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Reserve a table</h1>
-          <p className="text-sm text-stone-500">Select date, party size, and a time. Availability updates in real time when the API is connected.</p>
+          <p className="text-sm text-stone-500">
+            Pick a date, party size, and a time — like any guest would. The room map on the right is{" "}
+            <strong className="font-medium text-stone-600">optional</strong> context; you can book without looking at it.
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className="rr-card !p-0">
@@ -265,7 +268,7 @@ export function BookingView() {
                   key={s.startAt}
                   type="button"
                   onClick={() => void onPickSlot(s)}
-                  className={`rounded-lg px-2 py-2 text-left text-xs transition ${
+                  className={`rounded-xl px-3 py-2.5 text-left transition ${
                     active ? "ring-2 ring-amber-400" : "hover:opacity-90"
                   } ${
                     s.indicator === "available"
@@ -275,10 +278,15 @@ export function BookingView() {
                         : "rr-ind-reserved"
                   }`}
                 >
-                  {format(new Date(s.startAt), "p")}
-                  <br />
-                  <span className="text-[0.7rem] opacity-90">
-                    {s.availableCount}/{s.totalCount} free
+                  <span className="text-sm font-semibold tabular-nums leading-none text-stone-900">
+                    {format(new Date(s.startAt), "p")}
+                  </span>
+                  <span className="mt-1 block text-[0.7rem] font-medium text-stone-600/90">
+                    {s.indicator === "available"
+                      ? "Good availability"
+                      : s.indicator === "partial"
+                        ? `${s.availableCount} of ${s.totalCount} tables open`
+                        : "Full"}
                   </span>
                 </button>
               );
@@ -330,7 +338,7 @@ export function BookingView() {
       {slot && !done && view === "day" && (
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rr-card">
-            <h2 className="text-sm font-medium">Tables for {format(new Date(slot.startAt), "p")}</h2>
+            <h2 className="text-sm font-medium">Your table at {format(new Date(slot.startAt), "p")}</h2>
             {loadingTables ? (
               <p className="mt-2 text-sm text-stone-500">Loading availability…</p>
             ) : !tables || tables.length === 0 ? (
@@ -352,7 +360,7 @@ export function BookingView() {
                     </label>
                   </li>
                 ))}
-                <li className="pt-1 text-xs text-stone-500">Leave unselected to use automatic best fit.</li>
+                <li className="pt-1 text-xs text-stone-500">Or leave unselected and we’ll pick a good table for your group.</li>
               </ul>
             )}
             <form onSubmit={submit} className="mt-4 space-y-3">
@@ -417,10 +425,16 @@ export function BookingView() {
               </button>
             </form>
           </div>
-          <div className="rr-card">
-            <h2 className="text-sm font-medium">Floor (now / selected window)</h2>
+          <details className="rr-card rr-guest-details group self-start open:ring-1 open:ring-amber-200/80">
+            <summary className="cursor-pointer pr-1 text-sm font-medium text-stone-800">
+              <span className="text-amber-800/90">Optional:</span> room layout (for curious guests)
+            </summary>
+            <p className="mb-3 mt-1 text-xs text-stone-500">
+              This is a simplified “where tables sit” view. Staff use it in the back office; you don’t need it to
+              complete a booking.
+            </p>
             <TableMap floor={floor} loading={floorLoad} />
-          </div>
+          </details>
         </div>
       )}
     </div>
